@@ -8,12 +8,23 @@ nexus_group: "{{ nexus_user }}"
 nexus_version: 2.14.5-02
 nexus_artifact: "nexus-{{ nexus_version }}-bundle.tar.gz"
 nexus_artifact_url: "https://download.sonatype.com/nexus/oss/{{ nexus_artifact }}"
+nexus_force_install: false
+
+
+#############
+## Config
 
 nexus_base_dir:            "/usr/local"                 # parent directory of nexus install directory
 nexus_home_dir:            "{{ nexus_base_dir }}/nexus"
 nexus_install_dir:         "{{ nexus_base_dir }}/nexus-{{ nexus_version }}"
 nexus_sonatype_work_dir:   "{{ nexus_base_dir }}/sonatype-work"
 nexus_pid_dir:             "{{ nexus_home_dir }}/run"
-nexus_force_install:       false
 
-# consider config files under nexus_base_dir/conf/*
+nexus_port: 							 8081
+nexus_host: 							 0.0.0.0
+nexus_webapp_dir:					 "${bundleBasedir}/nexus"
+nexus_webapp_context_path: "/nexus"
+nexus_work_dir: 					 "${bundleBasedir}/../sonatype-work/nexus"
+
+nexus_storage_diskCache_bufferSize: 4096		# orientdb buffer size in megabytes
+
