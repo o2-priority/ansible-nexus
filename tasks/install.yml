@@ -1,0 +1,24 @@
+---
+
+- name: Download nexus OSS artifact
+  get_url:
+    url:  "{{ nexus_artifact_url }}"
+    dest: "/tmp/{{ nexus_artifact }}"
+
+- name: Unarchive nexus OSS artifact
+  unarchive:
+    src:    "/tmp/{{ nexus_artifact }}"
+    dest:   "{{ nexus_base_dir }}"
+    owner:  "{{ nexus_user }}"
+    group:  "{{ nexus_group }}"
+    mode:   0755
+    remote_src: yes
+  notify: Restart nexus
+
+- name: Create symlink to nexus install directory 
+  file:
+    src:    "{{ nexus_install_dir }}"
+    dest:   "{{ nexus_home_dir }}"
+    owner:  "{{ nexus_user }}"
+    group:  "{{ nexus_group }}"
+    state:  link

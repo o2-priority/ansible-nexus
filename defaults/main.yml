@@ -1,0 +1,19 @@
+---
+
+nexus_user:  nexus
+nexus_group: "{{ nexus_user }}"
+
+#############
+## Package
+nexus_version: 2.14.5-02
+nexus_artifact: "nexus-{{ nexus_version }}-bundle.tar.gz"
+nexus_artifact_url: "https://download.sonatype.com/nexus/oss/{{ nexus_artifact }}"
+
+nexus_base_dir:            "/usr/local"                 # parent directory of nexus install directory
+nexus_home_dir:            "{{ nexus_base_dir }}/nexus"
+nexus_install_dir:         "{{ nexus_base_dir }}/nexus-{{ nexus_version }}"
+nexus_sonatype_work_dir:   "{{ nexus_base_dir }}/sonatype-work"
+nexus_pid_dir:             "{{ nexus_home_dir }}/run"
+nexus_force_install:       false
+
+# consider config files under nexus_base_dir/conf/*

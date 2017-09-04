@@ -1,0 +1,9 @@
+---
+- name: Nexus play
+  hosts: test-kitchen
+
+  vars:
+
+  roles:
+    - wunzeco.java
+    - ansible-nexus

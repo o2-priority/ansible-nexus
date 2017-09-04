@@ -1,0 +1,72 @@
+---
+
+- name: Create nexus group
+  group: name={{ nexus_group }}
+
+- name: Create nexus user
+  user: 
+    name:  "{{ nexus_user }}"
+    group: "{{ nexus_group }}"
+    shell: "/bin/bash"
+    home:  "{{ nexus_home_dir }}"
+    createhome: no 
+
+- name: Ensure parent directory of nexus install directory exists
+  file: 
+    path: "{{ nexus_base_dir }}"
+    owner: root
+    group: root
+    mode:  0755
+    state: directory
+
+- name: Check if nexus is already installed
+  stat: path={{ nexus_install_dir }}
+  register: install_dir
+
+- name: Skip nexus installation if the correct version is already installed
+  set_fact: nexus_skip_install=true
+  when: (install_dir.stat.isdir is defined and install_dir.stat.isdir) and not nexus_force_install
+
+- name: Install Nexus OSS
+  include: install.yml
+  when: not nexus_skip_install|default(false)
+
+- name: Copy nexus service startup script
+  command: cp {{ nexus_home_dir }}/bin/nexus /etc/init.d/nexus
+
+- name: Update NEXUS_HOME environment variable in startup script
+  lineinfile:
+    dest:   /etc/init.d/nexus
+    regexp: '^NEXUS_HOME='
+    line:   'NEXUS_HOME="{{ nexus_home_dir }}"'
+
+- name: Update RUN_AS_USER environment variable in startup script
+  lineinfile: 
+    dest:   /etc/init.d/nexus
+    regexp: '^#RUN_AS_USER='
+    line:   'RUN_AS_USER="{{ nexus_user }}"'
+
+- name: Update PIDDIR environment variable in startup script
+  lineinfile:
+    dest:   /etc/init.d/nexus
+    regexp: '^#PIDDIR='
+    line:   'PIDDIR="{{ nexus_pid_dir }}"'
+
+- name: Create nexus pid directory
+  file:
+    path: "{{ nexus_pid_dir }}" 
+    owner: "{{ nexus_user }}" 
+    group: "{{ nexus_group }}" 
+    mode:  0755 
+    state: directory
+
+- name: Ensure nexus startup script has correct permissions
+  file:
+    path: /etc/init.d/nexus
+    owner: root
+    group: root
+    mode:  0755
+    state: file
+
+- name: Start nexus
+  service: name=nexus enabled=yes state=started
