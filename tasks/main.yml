@@ -34,7 +34,7 @@
 - name: Update nexus properties file
   template:
     src:   nexus.properties.j2
-    dest:  "{{ nexus_home_dir }}/nexus.properties" 
+    dest:  "{{ nexus_home_dir }}/conf/nexus.properties" 
     owner: "{{ nexus_user }}" 
     group: "{{ nexus_group }}" 
     mode:  0755 
@@ -42,52 +42,12 @@
 
 - name: Create nexus startup script
   template:
-    src:   etc.initd.nexus.j2
+    src:   nexus.startup.j2
     dest:  /etc/init.d/nexus
     owner: root
     group: root
     mode:  0755 
   notify: Restart nexus
-
-#- name: Copy nexus service startup script
-#  command: cp {{ nexus_home_dir }}/bin/nexus /etc/init.d/nexus
-#
-#- name: Update NEXUS_HOME environment variable in startup script
-#  lineinfile:
-#    dest:   /etc/init.d/nexus
-#    regexp: '^NEXUS_HOME='
-#    line:   'NEXUS_HOME="{{ nexus_home_dir }}"'
-#  notify: Restart nexus
-#
-#- name: Update RUN_AS_USER environment variable in startup script
-#  lineinfile: 
-#    dest:   /etc/init.d/nexus
-#    regexp: '^#RUN_AS_USER='
-#    line:   'RUN_AS_USER="{{ nexus_user }}"'
-#  notify: Restart nexus
-#
-#- name: Update PIDDIR environment variable in startup script
-#  lineinfile:
-#    dest:   /etc/init.d/nexus
-#    regexp: '^#PIDDIR='
-#    line:   'PIDDIR="{{ nexus_pid_dir }}"'
-#  notify: Restart nexus
-#
-#- name: Create nexus pid directory
-#  file:
-#    path: "{{ nexus_pid_dir }}" 
-#    owner: "{{ nexus_user }}" 
-#    group: "{{ nexus_group }}" 
-#    mode:  0755 
-#    state: directory
-#
-#- name: Ensure nexus startup script has correct permissions
-#  file:
-#    path: /etc/init.d/nexus
-#    owner: root
-#    group: root
-#    mode:  0755
-#    state: file
 
 - name: Start nexus
   service: name=nexus enabled=yes state=started

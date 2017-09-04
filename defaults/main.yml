@@ -20,11 +20,11 @@ nexus_install_dir:         "{{ nexus_base_dir }}/nexus-{{ nexus_version }}"
 nexus_sonatype_work_dir:   "{{ nexus_base_dir }}/sonatype-work"
 nexus_pid_dir:             "{{ nexus_home_dir }}/run"
 
-nexus_port: 							 8081
-nexus_host: 							 0.0.0.0
-nexus_webapp_dir:					 "${bundleBasedir}/nexus"
+nexus_port:                8081
+nexus_host:                0.0.0.0
+nexus_webapp_dir:          "${bundleBasedir}/nexus"
 nexus_webapp_context_path: "/nexus"
-nexus_work_dir: 					 "${bundleBasedir}/../sonatype-work/nexus"
+nexus_work_dir:            "${bundleBasedir}/../sonatype-work/nexus"
 
-nexus_storage_diskCache_bufferSize: 4096		# orientdb buffer size in megabytes
+nexus_storage_diskCache_bufferSize: 4096    # orientdb buffer size in megabytes
 
