@@ -1,5 +1,5 @@
-telegraf
-==============
+nexus
+=====
 
 Ansible role to install and configure Nexus Repository Manager 2 (OSS).
 
