@@ -19,14 +19,6 @@
     mode:  0755
     state: directory
 
-- name: Create nexus pid directory
-  file: 
-    path:  "{{ nexus_pid_dir }}"
-    owner: "{{ nexus_user }}" 
-    group: "{{ nexus_group }}" 
-    mode:  0755
-    state: directory
-
 - name: Check if nexus is already installed
   stat: path={{ nexus_install_dir }}
   register: install_dir
@@ -38,6 +30,14 @@
 - name: Install Nexus OSS
   include: install.yml
   when: not nexus_skip_install|default(false)
+
+- name: Create nexus pid directory
+  file: 
+    path:  "{{ nexus_pid_dir }}"
+    owner: "{{ nexus_user }}" 
+    group: "{{ nexus_group }}" 
+    mode:  0755
+    state: directory
 
 - name: Update nexus properties file
   template:
