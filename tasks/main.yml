@@ -31,6 +31,14 @@
   include: install.yml
   when: not nexus_skip_install|default(false)
 
+- name: Create symlink to nexus install directory 
+  file:
+    src:    "{{ nexus_install_dir }}"
+    dest:   "{{ nexus_home_dir }}"
+    owner:  "{{ nexus_user }}"
+    group:  "{{ nexus_group }}"
+    state:  link
+
 - name: Create nexus pid directory
   file: 
     path:  "{{ nexus_pid_dir }}"

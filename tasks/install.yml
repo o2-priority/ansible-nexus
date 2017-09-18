@@ -14,11 +14,3 @@
     mode:   0755
     remote_src: yes
   notify: Restart nexus
-
-- name: Create symlink to nexus install directory 
-  file:
-    src:    "{{ nexus_install_dir }}"
-    dest:   "{{ nexus_home_dir }}"
-    owner:  "{{ nexus_user }}"
-    group:  "{{ nexus_group }}"
-    state:  link
