@@ -14,3 +14,14 @@ describe file(nexus_home_dir) do
   it { should be_symlink }
   it { should be_owned_by 'nexus' }
 end
+
+describe file("#{nexus_base_dir}/conf/nexus.properties") do
+  it { should be_file }
+  it { should be_owned_by 'nexus' }
+  it { should be_mode 755 }
+end
+
+describe service("nexus") do
+  it { should be_enabled }
+  it { should be_running }
+end
