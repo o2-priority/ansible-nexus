@@ -28,7 +28,7 @@
   when: (install_dir.stat.isdir is defined and install_dir.stat.isdir) and not nexus_force_install
 
 - name: Install Nexus OSS
-  include: install.yml
+  include_tasks: install.yml
   when: not nexus_skip_install|default(false)
 
 - name: Create symlink to nexus install directory
