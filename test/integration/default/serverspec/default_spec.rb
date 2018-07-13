@@ -21,6 +21,18 @@ describe file("#{nexus_base_dir}/conf/nexus.properties") do
   it { should be_mode 755 }
 end
 
+service_startup_file = '/lib/systemd/system/nexus.service'
+if os[:family] =~ /ubuntu/ and os[:release] == '14.04'
+  service_startup_file = '/etc/init/nexus.conf'
+elsif os[:family] =~ /centos|redhat/
+  service_startup_file = '/usr/lib/systemd/system/nexus.service'
+end
+
+describe file(service_startup_file) do
+  it { should be_file }
+  it { should be_mode 644 }
+end
+
 describe service("nexus") do
   it { should be_enabled }
   it { should be_running }
